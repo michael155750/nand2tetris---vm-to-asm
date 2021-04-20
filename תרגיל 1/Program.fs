@@ -132,7 +132,7 @@ open System.IO
         |"that"-> (adr <- 4)
 
         File.AppendAllText(path2, "@" + arg.ToString() + "\n")|>ignore
-        File.AppendAllText(path2, "@D=A\n")|>ignore
+        File.AppendAllText(path2, "D=A\n")|>ignore
         File.AppendAllText(path2, "@" + adr.ToString() + "\n")|>ignore
         File.AppendAllText(path2, "A=M+D\n")|>ignore
         File.AppendAllText(path2, "D=M\n")|>ignore
