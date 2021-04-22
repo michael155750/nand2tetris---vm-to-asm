@@ -1,4 +1,5 @@
-﻿
+﻿//Michael Bergshtein 305643033 group 47
+//Netanel Zadok 304945835 group 42
 
 open System
 open System.IO
@@ -131,16 +132,16 @@ let PushElseFunc seg arg path2 =
     |"this" -> (adr <- 3)
     |"that"-> (adr <- 4)
     |_ -> ()
-
-    File.AppendAllText(path2, "@" + arg.ToString() + "\n")|>ignore
-    File.AppendAllText(path2, "D=A\n")|>ignore
-    File.AppendAllText(path2, "@" + adr.ToString() + "\n")|>ignore
-    File.AppendAllText(path2, "A=M+D\n")|>ignore
-    File.AppendAllText(path2, "D=M\n")|>ignore
-    File.AppendAllText(path2, "@0\n")|>ignore
-    File.AppendAllText(path2, "A=M\n")|>ignore
-    File.AppendAllText(path2, "M=D\n")|>ignore
-    StackFront path2
+    if adr > 0 then
+        File.AppendAllText(path2, "@" + arg.ToString() + "\n")|>ignore
+        File.AppendAllText(path2, "D=A\n")|>ignore
+        File.AppendAllText(path2, "@" + adr.ToString() + "\n")|>ignore
+        File.AppendAllText(path2, "A=M+D\n")|>ignore
+        File.AppendAllText(path2, "D=M\n")|>ignore
+        File.AppendAllText(path2, "@0\n")|>ignore
+        File.AppendAllText(path2, "A=M\n")|>ignore
+        File.AppendAllText(path2, "M=D\n")|>ignore
+        StackFront path2
 
 let PushTPFunc (arg) path2 = 
     File.AppendAllText(path2, "@" + arg.ToString() + "\n")|>ignore
@@ -191,16 +192,16 @@ let PopElseFunc seg arg path2 =
     |"this" -> (adr <- 3)
     |"that"-> (adr <- 4)
     |_ -> ()
-
-    File.AppendAllText(path2, "@0\n")|>ignore
-    File.AppendAllText(path2, "A=M-1\n")|>ignore
-    File.AppendAllText(path2, "D=M\n")|>ignore
-    File.AppendAllText(path2, "@" + adr.ToString() + "\n")|>ignore
-    File.AppendAllText(path2, "A=M\n")|>ignore
-    for i = 1 to arg do
-        File.AppendAllText(path2, "A=A+1\n")|>ignore
-    File.AppendAllText(path2, "M=D\n")|>ignore
-    StackBack path2
+    if adr > 0 then
+        File.AppendAllText(path2, "@0\n")|>ignore
+        File.AppendAllText(path2, "A=M-1\n")|>ignore
+        File.AppendAllText(path2, "D=M\n")|>ignore
+        File.AppendAllText(path2, "@" + adr.ToString() + "\n")|>ignore
+        File.AppendAllText(path2, "A=M\n")|>ignore
+        for i = 1 to arg do
+            File.AppendAllText(path2, "A=A+1\n")|>ignore
+        File.AppendAllText(path2, "M=D\n")|>ignore
+        StackBack path2
 
 let PopFunc (seg) (arg:int) (fileName) path2 :unit = 
     match seg with
