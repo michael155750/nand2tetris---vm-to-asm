@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="baseActions.fs" />
+    <Compile Include="basicArithmetic.fs" />
+    <Compile Include="boolArithmetic.fs" />
+    <Compile Include="pushFuncs.fs" />
+    <Compile Include="popFuncs.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
