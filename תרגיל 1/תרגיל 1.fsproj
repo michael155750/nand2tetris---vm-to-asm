@@ -12,6 +12,7 @@
     <Compile Include="boolArithmetic.fs" />
     <Compile Include="pushFuncs.fs" />
     <Compile Include="popFuncs.fs" />
+    <Compile Include="labelAndJump.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 

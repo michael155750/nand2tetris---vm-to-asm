@@ -16,6 +16,7 @@ let main argv =
         let path2 = Path.ChangeExtension(file,".asm") 
         if File.Exists(path2) then
             File.Delete(path2)
+            
         for line in fileLines do
             
             match line.Split(" ").[0] with
@@ -32,6 +33,9 @@ let main argv =
                 PushFunc (line.Split(" ").[1]) (line.Split(" ").[2]|>int) (Path.GetFileNameWithoutExtension(file)) path2
             |"pop" ->
                 PopFunc (line.Split(" ").[1]) (line.Split(" ").[2]|>int) (Path.GetFileNameWithoutExtension(file)) path2
+            |"label" -> LabelFunc (line.Split(" ").[1]) (Path.GetFileNameWithoutExtension(file)) path2
+            |"goto" -> GotoFunc (line.Split(" ").[1]) (Path.GetFileNameWithoutExtension(file)) path2
+            |"if-goto" -> IfgotoFunc (line.Split(" ").[1]) (Path.GetFileNameWithoutExtension(file)) path2
             |_ -> ()
             
 
