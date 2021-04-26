@@ -22,3 +22,5 @@ let StackBack path2 =
 let StackFront path2 = 
     File.AppendAllText(path2, "@0\n")|>ignore
     File.AppendAllText(path2, "M=M+1\n")|>ignore
+
+

@@ -4,7 +4,7 @@ module popFuncs
 open System.IO
 
 //pop
-let PopTPFunc arg path2 = 
+let private PopTPFunc arg path2 = 
     File.AppendAllText(path2, "@0\n")|>ignore
     File.AppendAllText(path2, "A=M-1\n")|>ignore
     File.AppendAllText(path2, "D=M\n")|>ignore
@@ -12,7 +12,7 @@ let PopTPFunc arg path2 =
     File.AppendAllText(path2, "M=D\n")|>ignore
     StackBack path2
 
-let PopStatFunc arg fileName path2 =
+let private PopStatFunc arg fileName path2 =
     File.AppendAllText(path2, "@0\n")|>ignore
     File.AppendAllText(path2, "A=M-1\n")|>ignore
     File.AppendAllText(path2, "D=M\n")|>ignore
@@ -20,7 +20,7 @@ let PopStatFunc arg fileName path2 =
     File.AppendAllText(path2, "M=D\n")|>ignore
     StackBack path2
 
-let PopElseFunc seg arg path2 = 
+let private PopElseFunc seg arg path2 = 
     let mutable adr:int = 0
     match seg with
     |"local" -> (adr <- 1)

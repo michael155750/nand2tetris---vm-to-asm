@@ -13,6 +13,7 @@
     <Compile Include="pushFuncs.fs" />
     <Compile Include="popFuncs.fs" />
     <Compile Include="labelAndJump.fs" />
+    <Compile Include="functions.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 

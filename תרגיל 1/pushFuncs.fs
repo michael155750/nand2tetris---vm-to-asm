@@ -3,7 +3,7 @@ module pushFuncs
 
 open System.IO
 
-let PushConstFunc (arg:int) path2 = 
+let private PushConstFunc (arg:int) path2 = 
     File.AppendAllText(path2, "@" + arg.ToString() + "\n")|>ignore
     File.AppendAllText(path2, "D=A\n")|>ignore
     File.AppendAllText(path2, "@0\n")|>ignore
@@ -11,7 +11,7 @@ let PushConstFunc (arg:int) path2 =
     File.AppendAllText(path2, "M=D\n")|>ignore
     StackFront path2
 
-let PushElseFunc seg arg path2 = 
+let private PushElseFunc seg arg path2 = 
     let mutable adr:int = 0
     match seg with
     |"local" -> (adr <- 1)
@@ -30,7 +30,9 @@ let PushElseFunc seg arg path2 =
         File.AppendAllText(path2, "M=D\n")|>ignore
         StackFront path2
 
-let PushTPFunc (arg) path2 = 
+//push to the pointers and temp values, also use for push
+//LCL and ARG pointers (internal use of the compiler)
+let private PushTPFunc (arg) path2 = 
     File.AppendAllText(path2, "@" + arg.ToString() + "\n")|>ignore
     File.AppendAllText(path2, "D=M\n")|>ignore
     File.AppendAllText(path2, "@0\n")|>ignore
@@ -38,7 +40,7 @@ let PushTPFunc (arg) path2 =
     File.AppendAllText(path2, "M=D\n")|>ignore
     StackFront path2
 
-let PushStatFunc arg fileName path2 = 
+let private PushStatFunc arg fileName path2 = 
     File.AppendAllText(path2, "@" + fileName + arg.ToString() + "\n")|>ignore
     File.AppendAllText(path2, "D=M\n")|>ignore
     File.AppendAllText(path2, "@0\n")|>ignore
@@ -51,5 +53,8 @@ let PushFunc (seg) (arg:int) (fileName) path2 =
     |"constant" -> PushConstFunc arg path2
     |"temp" -> PushTPFunc (5 + arg) path2
     |"pointer" -> PushTPFunc (3 + arg) path2
+    //LCL and ARG are internal use of the compiler for the pointers
+    |"LCL"-> PushTPFunc (1) path2
+    |"ARG"-> PushTPFunc (2) path2
     |"static" ->  PushStatFunc arg fileName path2
     |_ -> PushElseFunc seg arg path2

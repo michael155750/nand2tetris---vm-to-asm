@@ -10,15 +10,19 @@ let main argv =
     Console.WriteLine("Please enter the path:")
     let path = Console.ReadLine()
     let filesList = Directory.GetFiles(path,"*.vm")
+     
+    let path2 = path + "\\" + Path.GetFileNameWithoutExtension(path) + ".asm"
     
+    if File.Exists(path2) then
+        File.Delete(path2)
+    
+    if filesList.Length > 1 then
+        Bootstrap path2
     for file in filesList do
-        let fileLines = File.ReadLines(file)
-        let path2 = Path.ChangeExtension(file,".asm") 
-        if File.Exists(path2) then
-            File.Delete(path2)
-            
+        let fileLines = File.ReadLines(file)        
         for line in fileLines do
             
+            let fileName = Path.GetFileNameWithoutExtension(file)
             match line.Split(" ").[0] with
             |"add" -> AddFunc path2
             |"sub" -> SubFunc path2
@@ -30,12 +34,16 @@ let main argv =
             |"gt" -> GtFunc path2
             |"lt" -> LtFunc path2
             |"push" -> 
-                PushFunc (line.Split(" ").[1]) (line.Split(" ").[2]|>int) (Path.GetFileNameWithoutExtension(file)) path2
+                PushFunc (line.Split(" ").[1]) (line.Split(" ").[2]|>int) (fileName) path2
             |"pop" ->
-                PopFunc (line.Split(" ").[1]) (line.Split(" ").[2]|>int) (Path.GetFileNameWithoutExtension(file)) path2
-            |"label" -> LabelFunc (line.Split(" ").[1]) (Path.GetFileNameWithoutExtension(file)) path2
-            |"goto" -> GotoFunc (line.Split(" ").[1]) (Path.GetFileNameWithoutExtension(file)) path2
-            |"if-goto" -> IfgotoFunc (line.Split(" ").[1]) (Path.GetFileNameWithoutExtension(file)) path2
+                PopFunc (line.Split(" ").[1]) (line.Split(" ").[2]|>int) (fileName) path2
+            |"label" -> LabelFunc (line.Split(" ").[1]) (fileName) path2
+            |"goto" -> GotoFunc (line.Split(" ").[1]) (fileName) path2
+            |"if-goto" -> IfgotoFunc (line.Split(" ").[1]) (fileName) path2
+            |"call" -> CallFunc (line.Split(" ").[1]) (line.Split(" ").[2]|>int) (fileName) path2
+            |"function" ->
+                FunctionFunc (line.Split(" ").[1]) (line.Split(" ").[2]|>int) (fileName) path2
+            |"return" -> ReturnFunc path2
             |_ -> ()
             
 
