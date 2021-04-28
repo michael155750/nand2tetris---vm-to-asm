@@ -20,9 +20,9 @@ let main argv =
         Bootstrap path2
     for file in filesList do
         let fileLines = File.ReadLines(file)        
+        let fileName = Path.GetFileNameWithoutExtension(file)
         for line in fileLines do
             
-            let fileName = Path.GetFileNameWithoutExtension(file)
             match line.Split(" ").[0] with
             |"add" -> AddFunc path2
             |"sub" -> SubFunc path2

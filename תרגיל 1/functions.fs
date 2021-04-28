@@ -34,7 +34,7 @@ let CallFunc name n fileName path =
     File.AppendAllText(path, "M=D\n")
     
     //goto 
-    File.AppendAllText(path, "@" + funcName + "\n")
+    File.AppendAllText(path, "@" + name + "\n")
     File.AppendAllText(path, "0;JMP\n")
 
     // label return-address
@@ -102,8 +102,8 @@ let ReturnFunc path =
     File.AppendAllText(path, "0;JMP\n")
 
 let Bootstrap path = 
-    File.AppendAllText(path, "@256\n")|>ignore
+  (*  File.AppendAllText(path, "@256\n")|>ignore
     File.AppendAllText(path, "D=A\n")|>ignore
     File.AppendAllText(path, "@0\n")|>ignore
-    File.AppendAllText(path, "M=D\n")|>ignore
+    File.AppendAllText(path, "M=D\n")|>ignore*)
     GotoFunc "init" "Sys" path
